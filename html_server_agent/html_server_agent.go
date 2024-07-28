@@ -15,7 +15,7 @@ import (
 
 var editHtmlResp ArgsHtml
 
-func main() {
+func HtmlTool() {
 	apiKey := os.Getenv("OPEN_AI_API_KEY")
 	client := openai.NewClient(apiKey)
 	messages := make([]openai.ChatCompletionMessage, 0)
