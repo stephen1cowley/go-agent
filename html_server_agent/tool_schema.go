@@ -1,4 +1,4 @@
-package multi_tool
+package server
 
 import (
 	"github.com/sashabaranov/go-openai"
