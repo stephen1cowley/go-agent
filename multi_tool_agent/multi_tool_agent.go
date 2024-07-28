@@ -11,7 +11,6 @@ import (
 
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/sashabaranov/go-openai"
-	"github.com/sashabaranov/go-openai/jsonschema"
 )
 
 func main() {
@@ -21,37 +20,8 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Conversation")
 	fmt.Println("---------------------")
-
-	jsonSchema := jsonschema.Definition{
-		Type: jsonschema.Object,
-		Properties: map[string]jsonschema.Definition{
-			"num1": {
-				Type:        jsonschema.Integer,
-				Description: "The first number",
-			},
-			"num2": {
-				Type:        jsonschema.Integer,
-				Description: "The second number",
-			},
-			"num3": {
-				Type:        jsonschema.Integer,
-				Description: "The third number",
-			},
-		},
-	}
-
-	myFuncDef := openai.FunctionDefinition{
-		Name:        "number_multiplier",
-		Description: "Multiplies the three numbers together",
-		Parameters:  &jsonSchema,
-	}
-
-	myTool := openai.Tool{
-		Type:     openai.ToolType("function"),
-		Function: &myFuncDef,
-	}
-
-	myTools := []openai.Tool{myTool}
+	fmt.Println(Xk)
+	myTools := []openai.Tool{MyTool1, MyTool2}
 
 	for {
 		fmt.Print("-> ")
