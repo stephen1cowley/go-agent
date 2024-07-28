@@ -68,21 +68,21 @@ func main() {
 			case "four_number_multiplier":
 				fmt.Println("Four numbers")
 				fmt.Println(val.Function.Arguments)
-				json.Unmarshal([]byte(val.Function.Arguments), &threeNums)
-				fmt.Println(Mult3(
-					threeNums.Num1,
-					threeNums.Num2,
-					threeNums.Num3,
-				))
-			case "three_number_multiplier":
-				fmt.Println("Three numbers")
-				fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &fourNums)
 				fmt.Println(Mult4(
 					fourNums.Num1,
 					fourNums.Num2,
 					fourNums.Num3,
 					fourNums.Num4,
+				))
+			case "three_number_multiplier":
+				fmt.Println("Three numbers")
+				fmt.Println(val.Function.Arguments)
+				json.Unmarshal([]byte(val.Function.Arguments), &threeNums)
+				fmt.Println(Mult3(
+					threeNums.Num1,
+					threeNums.Num2,
+					threeNums.Num3,
 				))
 			}
 		}
