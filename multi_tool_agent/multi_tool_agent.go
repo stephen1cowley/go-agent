@@ -20,7 +20,6 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Conversation")
 	fmt.Println("---------------------")
-	fmt.Println(Xk)
 	myTools := []openai.Tool{MyTool1, MyTool2}
 
 	for {
