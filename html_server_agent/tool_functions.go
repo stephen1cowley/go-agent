@@ -6,7 +6,7 @@ import (
 )
 
 func RunServer() {
-	cmd := exec.Command("shell_script/runServer.sh")
+	cmd := exec.Command("shell_script/runServer2.sh")
 	output, err := cmd.Output()
 	if err != nil {
 		fmt.Println("Error:", err)
