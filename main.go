@@ -1,9 +1,16 @@
 package main
 
 import (
-	multi_tool "github.com/stephen1cowley/go-agent/multi_tool_agent"
+	"fmt"
+	"os/exec"
 )
 
 func main() {
-	multi_tool.MultiTool()
+	cmd := exec.Command("/bin/sh", "script.sh")
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	fmt.Println("Output:", string(output))
 }
