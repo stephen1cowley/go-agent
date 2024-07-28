@@ -16,7 +16,7 @@ import (
 var threeNums Args1
 var fourNums Args2
 
-func multi_tool() {
+func MultiTool() {
 	apiKey := os.Getenv("OPEN_AI_API_KEY")
 	client := openai.NewClient(apiKey)
 	messages := make([]openai.ChatCompletionMessage, 0)
