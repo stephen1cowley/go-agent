@@ -13,8 +13,7 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
-var threeNums Args1
-var fourNums Args2
+var editHtmlResp ArgsHtml
 
 func main() {
 	apiKey := os.Getenv("OPEN_AI_API_KEY")
@@ -23,7 +22,7 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Conversation")
 	fmt.Println("---------------------")
-	myTools := []openai.Tool{MyTool1, MyTool2}
+	myTools := []openai.Tool{HtmlEdit}
 
 	for {
 		fmt.Print("-> ")
@@ -65,25 +64,13 @@ func main() {
 
 		for _, val := range resp.Choices[0].Message.ToolCalls {
 			switch val.Function.Name {
-			case "four_number_multiplier":
-				fmt.Println("Four numbers")
+			case "html_edit_func":
+				fmt.Println("Editting the HTML code...")
 				fmt.Println(val.Function.Arguments)
-				json.Unmarshal([]byte(val.Function.Arguments), &fourNums)
-				fmt.Println(Mult4(
-					fourNums.Num1,
-					fourNums.Num2,
-					fourNums.Num3,
-					fourNums.Num4,
-				))
-			case "three_number_multiplier":
-				fmt.Println("Three numbers")
-				fmt.Println(val.Function.Arguments)
-				json.Unmarshal([]byte(val.Function.Arguments), &threeNums)
-				fmt.Println(Mult3(
-					threeNums.Num1,
-					threeNums.Num2,
-					threeNums.Num3,
-				))
+				json.Unmarshal([]byte(val.Function.Arguments), &editHtmlResp)
+				EditWebsite(
+					editHtmlResp.HtmlCode,
+				)
 			}
 		}
 
