@@ -13,6 +13,9 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
+var threeNums Args1
+var fourNums Args2
+
 func main() {
 	apiKey := os.Getenv("OPEN_AI_API_KEY")
 	client := openai.NewClient(apiKey)
@@ -59,8 +62,31 @@ func main() {
 
 		fmt.Println(string(jsonData))
 		content := resp.Choices[0].Message.Content
-		toolCall := resp.Choices[0].Message.ToolCalls
-		fmt.Println(toolCall)
+
+		for _, val := range resp.Choices[0].Message.ToolCalls {
+			switch val.Function.Name {
+			case "four_number_multiplier":
+				fmt.Println("Four numbers")
+				fmt.Println(val.Function.Arguments)
+				json.Unmarshal([]byte(val.Function.Arguments), &threeNums)
+				fmt.Println(Mult3(
+					threeNums.Num1,
+					threeNums.Num2,
+					threeNums.Num3,
+				))
+			case "three_number_multiplier":
+				fmt.Println("Three numbers")
+				fmt.Println(val.Function.Arguments)
+				json.Unmarshal([]byte(val.Function.Arguments), &fourNums)
+				fmt.Println(Mult4(
+					fourNums.Num1,
+					fourNums.Num2,
+					fourNums.Num3,
+					fourNums.Num4,
+				))
+			}
+		}
+
 		messages = append(messages, openai.ChatCompletionMessage{
 			Role:    openai.ChatMessageRoleAssistant,
 			Content: content,

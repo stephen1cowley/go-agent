@@ -5,6 +5,19 @@ import (
 	"github.com/sashabaranov/go-openai/jsonschema"
 )
 
+type Args1 struct {
+	Num1 int `json:"num1"`
+	Num2 int `json:"num2"`
+	Num3 int `json:"num3"`
+}
+
+type Args2 struct {
+	Num1 int `json:"num1"`
+	Num2 int `json:"num2"`
+	Num3 int `json:"num3"`
+	Num4 int `json:"num4"`
+}
+
 var (
 	jsonSchema1 = jsonschema.Definition{
 		Type: jsonschema.Object,
@@ -68,5 +81,3 @@ var (
 		Function: &myFuncDef2,
 	}
 )
-
-var Xk = 1
