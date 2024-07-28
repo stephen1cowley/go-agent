@@ -1,4 +1,4 @@
-package main
+package test1
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 	openai "github.com/sashabaranov/go-openai"
 )
 
-func main() {
+func test1() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")

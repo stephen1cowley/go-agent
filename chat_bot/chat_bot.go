@@ -1,4 +1,4 @@
-package main
+package test2
 
 import (
 	"bufio"
@@ -14,7 +14,7 @@ import (
 	"github.com/sashabaranov/go-openai/jsonschema"
 )
 
-func main() {
+func test2() {
 	apiKey := os.Getenv("OPEN_AI_API_KEY")
 	client := openai.NewClient(apiKey)
 	messages := make([]openai.ChatCompletionMessage, 0)
