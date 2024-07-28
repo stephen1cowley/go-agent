@@ -22,7 +22,7 @@ func HtmlTool() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Conversation")
 	fmt.Println("---------------------")
-	myTools := []openai.Tool{HtmlEdit}
+	myTools := []openai.Tool{HtmlEdit, RunTheServer}
 
 	for {
 		fmt.Print("-> ")
@@ -71,6 +71,9 @@ func HtmlTool() {
 				EditWebsite(
 					editHtmlResp.HtmlCode,
 				)
+			case "run_server_func":
+				fmt.Println("Now running the server...")
+				RunServer()
 			}
 		}
 

@@ -9,6 +9,7 @@ type ArgsHtml struct {
 	HtmlCode string `json:"htmlcode"`
 }
 
+// Tool function definition for editting the HTML.
 var (
 	HtmljsonSchema = jsonschema.Definition{
 		Type: jsonschema.Object,
@@ -29,5 +30,18 @@ var (
 	HtmlEdit = openai.Tool{
 		Type:     openai.ToolType("function"),
 		Function: &HtmlEditFuncDef,
+	}
+)
+
+// Tool function definition for running the server
+var (
+	RunServerFuncDef = openai.FunctionDefinition{
+		Name:        "run_server_func",
+		Description: "Run the server",
+	}
+
+	RunTheServer = openai.Tool{
+		Type:     openai.ToolType("function"),
+		Function: &RunServerFuncDef,
 	}
 )
