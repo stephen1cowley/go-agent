@@ -5,8 +5,8 @@ sudo apt-get update
 sudo apt-get install -y python3
 
 # Create a directory for the server
-mkdir -p ~/my_server
-cd ~/my_server
+mkdir -p ~/my_website
+cd ~/my_website
 
 # Create a simple HTTP server script
 cat <<EOF > server.py
@@ -22,12 +22,12 @@ with socketserver.TCPServer(("", PORT), Handler) as httpd:
 EOF
 
 # Create a systemd service file for the daemon
-sudo bash -c 'cat <<EOF > /etc/systemd/system/my_server.service
+sudo bash -c 'cat <<EOF > /etc/systemd/system/my_website.service
 [Unit]
 Description=Simple HTTP Server
 
 [Service]
-ExecStart=/usr/bin/python3 /home/$USER/my_server/server.py
+ExecStart=/usr/bin/python3 /home/$USER/my_website/server.py
 Restart=always
 User=$USER
 
@@ -39,7 +39,7 @@ EOF'
 sudo systemctl daemon-reload
 
 # Enable and start the service
-sudo systemctl enable my_server.service
-sudo systemctl start my_server.service
+sudo systemctl enable my_website.service
+sudo systemctl start my_website.service
 
 echo "Simple HTTP server is now running as a daemon on port 8000."
