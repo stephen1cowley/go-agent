@@ -39,7 +39,7 @@ func HtmlTool() {
 		resp, err := client.CreateChatCompletion(
 			ctx,
 			openai.ChatCompletionRequest{
-				Model:    openai.GPT3Dot5Turbo,
+				Model:    openai.GPT4o,
 				Messages: messages,
 				Tools:    myTools,
 				// ToolChoice: "required",
