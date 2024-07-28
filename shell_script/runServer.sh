@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Navigate to the website directory
 cd ~/my_website
 
