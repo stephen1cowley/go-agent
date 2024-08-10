@@ -61,8 +61,9 @@ func HtmlTool() {
 
 		fmt.Println(string(jsonData))
 		content := resp.Choices[0].Message.Content
+		tool_calls := resp.Choices[0].Message.ToolCalls
 
-		for _, val := range resp.Choices[0].Message.ToolCalls {
+		for _, val := range tool_calls {
 			switch val.Function.Name {
 			case "html_edit_func":
 				fmt.Println("Editting the HTML code...")

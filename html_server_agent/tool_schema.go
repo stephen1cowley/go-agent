@@ -23,7 +23,7 @@ var (
 
 	HtmlEditFuncDef = openai.FunctionDefinition{
 		Name:        "html_edit_func",
-		Description: "Replaces the HTML code of the website",
+		Description: "Replaces the HTML code of the website with that desired",
 		Parameters:  &HtmljsonSchema,
 	}
 
@@ -37,7 +37,7 @@ var (
 var (
 	RunServerFuncDef = openai.FunctionDefinition{
 		Name:        "run_server_func",
-		Description: "Run the server",
+		Description: "Run the server at port 8000",
 	}
 
 	RunTheServer = openai.Tool{
