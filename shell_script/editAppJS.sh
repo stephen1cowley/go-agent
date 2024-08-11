@@ -8,4 +8,6 @@ cat <<EOL > App.js
 $1
 EOL
 
+npm i
+
 echo "App.js file updated at ~/my-react-app/App.js"
