@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -18,6 +19,16 @@ var editAppCSSResp ArgsAppCSS
 var newFileResp ArgsCreateFile
 
 func AppJSTool() {
+
+	// Start off by cleaning the React App source code
+	cmd := exec.Command("shell_script/onStartup.sh")
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	fmt.Println(string(output))
+
 	apiKey := os.Getenv("OPEN_AI_API_KEY")
 	client := openai.NewClient(apiKey)
 	messages := make([]openai.ChatCompletionMessage, 0)
