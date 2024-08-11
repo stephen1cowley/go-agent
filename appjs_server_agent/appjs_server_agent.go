@@ -15,6 +15,7 @@ import (
 
 var editAppJSResp ArgsAppJS
 var editAppCSSResp ArgsAppCSS
+var newFileResp ArgsCreateFile
 
 func AppJSTool() {
 	apiKey := os.Getenv("OPEN_AI_API_KEY")
@@ -23,13 +24,13 @@ func AppJSTool() {
 
 	messages = append(messages, openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,
-		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js and App.css only, and you are not able to import any external libraries.",
+		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js and App.css. You are able to create new JavaScript files to assist you in creating the application, ensure these are correctly imported into App.js. You are not able to import any external libraries.",
 	})
 
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Conversation")
 	fmt.Println("---------------------")
-	myTools := []openai.Tool{AppJSEdit, AppCSSEdit}
+	myTools := []openai.Tool{AppJSEdit, AppCSSEdit, NewJsonFile}
 
 	for {
 		fmt.Print("-> ")
@@ -90,6 +91,13 @@ func AppJSTool() {
 				json.Unmarshal([]byte(val.Function.Arguments), &editAppCSSResp)
 				EditAppCSS(
 					editAppCSSResp.AppCSSCode,
+				)
+			case "new_js_file_func":
+				fmt.Println("Creating new JS file ...")
+				// fmt.Println(val.Function.Arguments)
+				json.Unmarshal([]byte(val.Function.Arguments), &newFileResp)
+				CreateJSFile(
+					newFileResp,
 				)
 			}
 		}
