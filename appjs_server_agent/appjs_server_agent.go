@@ -72,6 +72,7 @@ func AppJSTool() {
 				EditWebsite(
 					editAppJSResp.AppJSCode,
 				)
+			}
 		}
 
 		messages = append(messages, openai.ChatCompletionMessage{
