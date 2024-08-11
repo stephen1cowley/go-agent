@@ -70,18 +70,20 @@ func AppJSTool() {
 		content := resp.Choices[0].Message.Content
 		tool_calls := resp.Choices[0].Message.ToolCalls
 
-		fmt.Println("Now making any tool calls... ")
+		fmt.Println("Now making any tool calls ")
 
 		for _, val := range tool_calls {
 			switch val.Function.Name {
 			case "app_js_edit_func":
 				fmt.Println("Updating App.js ...")
+				fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &editAppJSResp)
 				EditAppJS(
 					editAppJSResp.AppJSCode,
 				)
 			case "app_css_edit_func":
 				fmt.Println("Updating App.css ...")
+				fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &editAppCSSResp)
 				EditAppCSS(
 					editAppCSSResp.AppCSSCode,
