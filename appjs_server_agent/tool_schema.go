@@ -42,7 +42,7 @@ var (
 	AppCSSjsonSchema = jsonschema.Definition{
 		Type: jsonschema.Object,
 		Properties: map[string]jsonschema.Definition{
-			"appjscode": {
+			"appcsscode": {
 				Type:        jsonschema.String,
 				Description: "The new App.css React code of the website.",
 			},
