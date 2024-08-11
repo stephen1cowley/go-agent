@@ -49,6 +49,7 @@ func AppJSTool() {
 				Model:    openai.GPT4o,
 				Messages: messages,
 				Tools:    myTools,
+				Stream:   true,
 				// ToolChoice: "required",
 			},
 		)
