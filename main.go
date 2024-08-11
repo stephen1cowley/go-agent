@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	server.HtmlTool()
+	server.AppJSTool()
 }

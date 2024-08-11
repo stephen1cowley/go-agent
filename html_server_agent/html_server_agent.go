@@ -13,9 +13,9 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
-var editHtmlResp ArgsHtml
+var editAppJSResp ArgsAppJS
 
-func HtmlTool() {
+func AppJSTool() {
 	apiKey := os.Getenv("OPEN_AI_API_KEY")
 	client := openai.NewClient(apiKey)
 	messages := make([]openai.ChatCompletionMessage, 0)
@@ -68,9 +68,9 @@ func HtmlTool() {
 			case "app_js_edit_func":
 				fmt.Println("Editting the HTML code...")
 				fmt.Println(val.Function.Arguments)
-				json.Unmarshal([]byte(val.Function.Arguments), &editHtmlResp)
+				json.Unmarshal([]byte(val.Function.Arguments), &editAppJSResp)
 				EditWebsite(
-					editHtmlResp.HtmlCode,
+					editAppJSResp.AppJSCode,
 				)
 		}
 
