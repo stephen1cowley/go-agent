@@ -8,6 +8,4 @@ cat <<EOL > App.css
 $1
 EOL
 
-npm i
-
 echo "App.css file updated at ~/my-react-app/App.css"
