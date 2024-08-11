@@ -9,7 +9,11 @@ type ArgsAppJS struct {
 	AppJSCode string `json:"appjscode"`
 }
 
-// Tool function definition for editting the HTML.
+type ArgsAppCSS struct {
+	AppCSSCode string `json:"appcsscode"`
+}
+
+// Tool definition for editting the App.js file
 var (
 	AppJSjsonSchema = jsonschema.Definition{
 		Type: jsonschema.Object,
@@ -30,5 +34,29 @@ var (
 	AppJSEdit = openai.Tool{
 		Type:     openai.ToolType("function"),
 		Function: &AppJSEditFuncDef,
+	}
+)
+
+// Tool definition for editting the App.css file
+var (
+	AppCSSjsonSchema = jsonschema.Definition{
+		Type: jsonschema.Object,
+		Properties: map[string]jsonschema.Definition{
+			"appjscode": {
+				Type:        jsonschema.String,
+				Description: "The new App.css React code of the website.",
+			},
+		},
+	}
+
+	AppCSSEditFuncDef = openai.FunctionDefinition{
+		Name:        "app_css_edit_func",
+		Description: "Replaces the App.css code of the React website with the inputted code.",
+		Parameters:  &AppCSSjsonSchema,
+	}
+
+	AppCSSEdit = openai.Tool{
+		Type:     openai.ToolType("function"),
+		Function: &AppCSSEditFuncDef,
 	}
 )
