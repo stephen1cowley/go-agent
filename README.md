@@ -53,7 +53,11 @@ sudo systemctl start my-react-app
 sudo systemctl status my-react-app.service
 ```
 
-Now the service is up and running. We're ready for our chatbot to make changes to the code! To run the chat bot:
+Now the service is up and running. 
+
+Next, Add a `.env` file with `OPEN_AI_KEY = "abcdefghijklmnop"`
+
+We're ready for our chatbot to make changes to the code! To run the chat bot:
 
 ```
 sudo apt-get install golang
