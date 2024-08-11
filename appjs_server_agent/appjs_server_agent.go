@@ -60,41 +60,40 @@ func AppJSTool() {
 			continue
 		}
 
-		jsonData, err := json.MarshalIndent(resp, "", "    ")
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
+		// jsonData, err := json.MarshalIndent(resp, "", "    ")
+		// if err != nil {
+		// 	fmt.Println(err)
+		// 	return
+		// }
+		// fmt.Println(string(jsonData))
 
-		fmt.Println(string(jsonData))
 		content := resp.Choices[0].Message.Content
-		tool_calls := resp.Choices[0].Message.ToolCalls
+		fmt.Println(content)
 
-		fmt.Println("Now making any tool calls ")
+		tool_calls := resp.Choices[0].Message.ToolCalls
+		fmt.Println("Now making any tool calls ...")
 
 		for _, val := range tool_calls {
 			switch val.Function.Name {
 			case "app_js_edit_func":
 				fmt.Println("Updating App.js ...")
-				fmt.Println(val.Function.Arguments)
+				// fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &editAppJSResp)
 				EditAppJS(
 					editAppJSResp.AppJSCode,
 				)
 			case "app_css_edit_func":
 				fmt.Println("Updating App.css ...")
-				fmt.Println(val.Function.Arguments)
+				// fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &editAppCSSResp)
 				EditAppCSS(
 					editAppCSSResp.AppCSSCode,
 				)
 			}
 		}
-
 		messages = append(messages, openai.ChatCompletionMessage{
 			Role:    openai.ChatMessageRoleAssistant,
 			Content: content,
 		})
-		fmt.Println(content)
 	}
 }
