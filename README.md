@@ -16,7 +16,7 @@ chmod +x go-agent/shell_script/*
 Then
 ```
 sudo apt-get install npm
-npm create-react-app my-react-app
+npx create-react-app my-react-app
 cd my-react-app
 npm init -y
 ```
