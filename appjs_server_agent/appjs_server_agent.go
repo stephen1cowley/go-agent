@@ -19,6 +19,12 @@ func AppJSTool() {
 	apiKey := os.Getenv("OPEN_AI_API_KEY")
 	client := openai.NewClient(apiKey)
 	messages := make([]openai.ChatCompletionMessage, 0)
+
+	messages = append(messages, openai.ChatCompletionMessage{
+		Role:    openai.ChatMessageRoleSystem,
+		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js only, and you are not able to import any external libraries.",
+	})
+
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Conversation")
 	fmt.Println("---------------------")
@@ -66,7 +72,7 @@ func AppJSTool() {
 		for _, val := range tool_calls {
 			switch val.Function.Name {
 			case "app_js_edit_func":
-				fmt.Println("Editting the HTML code...")
+				fmt.Println("Updating App.js ...")
 				fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &editAppJSResp)
 				EditWebsite(

@@ -16,14 +16,14 @@ var (
 		Properties: map[string]jsonschema.Definition{
 			"appjscode": {
 				Type:        jsonschema.String,
-				Description: "The new App.js code of the website",
+				Description: "The new App.js React code of the website. You MUST define a function App() and export default App in this file.",
 			},
 		},
 	}
 
 	AppJSEditFuncDef = openai.FunctionDefinition{
 		Name:        "app_js_edit_func",
-		Description: "Replaces the App.js code of the react website with that desired",
+		Description: "Replaces the App.js code of the React website with the inputted code.",
 		Parameters:  &AppJSjsonSchema,
 	}
 
