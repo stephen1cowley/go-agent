@@ -5,43 +5,30 @@ import (
 	"github.com/sashabaranov/go-openai/jsonschema"
 )
 
-type ArgsHtml struct {
-	HtmlCode string `json:"htmlcode"`
+type ArgsAppJS struct {
+	AppJSCode string `json:"appjscode"`
 }
 
 // Tool function definition for editting the HTML.
 var (
-	HtmljsonSchema = jsonschema.Definition{
+	AppJSjsonSchema = jsonschema.Definition{
 		Type: jsonschema.Object,
 		Properties: map[string]jsonschema.Definition{
-			"htmlcode": {
+			"appjscode": {
 				Type:        jsonschema.String,
-				Description: "The new HTML code of the website",
+				Description: "The new App.js code of the website",
 			},
 		},
 	}
 
-	HtmlEditFuncDef = openai.FunctionDefinition{
-		Name:        "html_edit_func",
-		Description: "Replaces the HTML code of the website with that desired",
-		Parameters:  &HtmljsonSchema,
+	AppJSEditFuncDef = openai.FunctionDefinition{
+		Name:        "app_js_edit_func",
+		Description: "Replaces the App.js code of the react website with that desired",
+		Parameters:  &AppJSjsonSchema,
 	}
 
-	HtmlEdit = openai.Tool{
+	AppJSEdit = openai.Tool{
 		Type:     openai.ToolType("function"),
-		Function: &HtmlEditFuncDef,
-	}
-)
-
-// Tool function definition for running the server
-var (
-	RunServerFuncDef = openai.FunctionDefinition{
-		Name:        "run_server_func",
-		Description: "Run the server at port 8000",
-	}
-
-	RunTheServer = openai.Tool{
-		Type:     openai.ToolType("function"),
-		Function: &RunServerFuncDef,
+		Function: &AppJSEditFuncDef,
 	}
 )

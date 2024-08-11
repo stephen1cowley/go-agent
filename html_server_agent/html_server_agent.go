@@ -22,7 +22,7 @@ func HtmlTool() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Conversation")
 	fmt.Println("---------------------")
-	myTools := []openai.Tool{HtmlEdit, RunTheServer}
+	myTools := []openai.Tool{AppJSEdit}
 
 	for {
 		fmt.Print("-> ")
@@ -65,17 +65,13 @@ func HtmlTool() {
 
 		for _, val := range tool_calls {
 			switch val.Function.Name {
-			case "html_edit_func":
+			case "app_js_edit_func":
 				fmt.Println("Editting the HTML code...")
 				fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &editHtmlResp)
 				EditWebsite(
 					editHtmlResp.HtmlCode,
 				)
-			case "run_server_func":
-				fmt.Println("Now running the server...")
-				RunServer()
-			}
 		}
 
 		messages = append(messages, openai.ChatCompletionMessage{

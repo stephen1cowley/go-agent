@@ -5,19 +5,9 @@ import (
 	"os/exec"
 )
 
-func RunServer() {
-	cmd := exec.Command("shell_script/runServer.sh")
-	output, err := cmd.Output()
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-	fmt.Println("Output:", string(output))
-}
-
-func EditWebsite(htmlCode string) {
+func EditWebsite(AppJSCode string) {
 	// Run the shell script with the variable value
-	cmd := exec.Command("shell_script/editHtml.sh", htmlCode)
+	cmd := exec.Command("shell_script/editAppJS.sh", AppJSCode)
 	output, err := cmd.Output()
 	if err != nil {
 		fmt.Println("Error:", err)
