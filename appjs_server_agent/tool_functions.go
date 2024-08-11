@@ -45,11 +45,12 @@ func CreateJSFile(CreateJSFileArgs ArgsCreateFile) {
 }
 
 func InstallLibraries(IntallLibrariesArgs ArgsLibraries) {
-	libStr := ""
-	for _, lib := range IntallLibrariesArgs.Libraries {
-		libStr += " "
-		libStr += lib
-	}
+	// libStr := ""
+	// for _, lib := range IntallLibrariesArgs.Libraries {
+	// 	libStr += " "
+	// 	libStr += lib
+	// }
+	libStr := IntallLibrariesArgs.Libraries
 	// Run the shell script to import the required libraries
 	cmd := exec.Command("shell_script/importLibs.sh", libStr)
 	output, err := cmd.Output()

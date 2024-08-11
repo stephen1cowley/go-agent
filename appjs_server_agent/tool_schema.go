@@ -19,7 +19,7 @@ type ArgsCreateFile struct {
 }
 
 type ArgsLibraries struct {
-	Libraries []string `json:"libraries"`
+	Libraries string `json:"libraries"`
 }
 
 // Tool definition for editting the App.js file
@@ -104,8 +104,8 @@ var (
 		Type: jsonschema.Object,
 		Properties: map[string]jsonschema.Definition{
 			"libraries": {
-				Type:        jsonschema.Array,
-				Description: "Array of strings of libraries that require importing",
+				Type:        jsonschema.String,
+				Description: "String of a library that require importing",
 			},
 		},
 	}
