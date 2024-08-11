@@ -1,40 +1,62 @@
-On linux only, run:
+### To Run
 
+Works on linux only.
+
+Clone with http
 ```
-chmod +x script.sh
-sudo apt-get install npm
+git clone https://github.com/stephen1cowley/go-agent
+```
+
+
+Grant executable permissions for the shellscript
+```
+chmod +x go-agent/shell_script/editAppJS.sh
 ```
 
 Then
 ```
 sudo apt-get install npm
-npm install -g http-server
+npm create-react-app my-react-app
+cd my-react-app
 npm init -y
-npm install http-server --save-dev
 ```
 
-package.json
-```
-{
-  "name": "my-simple-server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "http-server -a 0.0.0.0 -p 8000"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "http-server": "^14.0.0"
-  }
-}
-```
+Then we want to get the server up and running on public IPv4 address. So in `package.json` under scripts:start prepend `HOST=0.0.0.0` and allow external http traffic on port 3000 on your server.
 
-Create in home directory my_server folder, then 
-
-Then
+Now get the server running with an automatic restart daemon using `systemd`.
 
 ```
+sudo nano /etc/systemd/system/my-react-app.service
+```
+
+Replace contents with (replace `ubuntu` with actual system username)
+```
+[Unit]
+Description=My React App
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/my-react-app
+ExecStart=/usr/bin/npm start
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Then in `my-react-app`
+```
+sudo systemctl daemon-reload
+sudo systemctl start my-react-app
+sudo systemctl status my-react-app.service
+```
+
+Now the service is up and running. We're ready for our chatbot to make changes to the code! To run the chat bot:
+
+```
+sudo apt-get install golang
+cd ~/go-agent
 go run main.go
 ```
