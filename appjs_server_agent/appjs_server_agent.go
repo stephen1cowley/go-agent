@@ -71,7 +71,9 @@ func AppJSTool() {
 		fmt.Println(content)
 
 		tool_calls := resp.Choices[0].Message.ToolCalls
-		fmt.Println("Now making any tool calls ...")
+		if len(tool_calls) != 0 {
+			fmt.Println("Now making any tool calls ...")
+		}
 
 		for _, val := range tool_calls {
 			switch val.Function.Name {
