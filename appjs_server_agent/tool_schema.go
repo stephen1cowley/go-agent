@@ -18,6 +18,10 @@ type ArgsCreateFile struct {
 	FileContent string `json:"filecontent"`
 }
 
+type ArgsLibraries struct {
+	Libraries []string `json:"libraries"`
+}
+
 // Tool definition for editting the App.js file
 var (
 	AppJSjsonSchema = jsonschema.Definition{
@@ -91,5 +95,29 @@ var (
 	NewJsonFile = openai.Tool{
 		Type:     openai.ToolType("function"),
 		Function: &NewFileFuncDef,
+	}
+)
+
+// Tool definition for importing libraries
+var (
+	LibrariesJsonSchema = jsonschema.Definition{
+		Type: jsonschema.Object,
+		Properties: map[string]jsonschema.Definition{
+			"libraries": {
+				Type:        jsonschema.Array,
+				Description: "Array of strings of libraries that require importing",
+			},
+		},
+	}
+
+	LibrariesFuncDef = openai.FunctionDefinition{
+		Name:        "libraries_func",
+		Description: "Imports the required libraries into the Node React project usign npm install ...",
+		Parameters:  &LibrariesJsonSchema,
+	}
+
+	ImportLibraries = openai.Tool{
+		Type:     openai.ToolType("function"),
+		Function: &LibrariesFuncDef,
 	}
 )

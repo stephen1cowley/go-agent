@@ -43,3 +43,20 @@ func CreateJSFile(CreateJSFileArgs ArgsCreateFile) {
 	// Print the output from the shell script
 	fmt.Println(string(output))
 }
+
+func InstallLibraries(IntallLibrariesArgs ArgsLibraries) {
+	libStr := ""
+	for _, lib := range IntallLibrariesArgs.Libraries {
+		libStr += " "
+		libStr += lib
+	}
+	// Run the shell script to import the required libraries
+	cmd := exec.Command("shell_script/importLibs.sh", libStr)
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	// Print the output from the shell script
+	fmt.Println(string(output))
+}

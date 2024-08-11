@@ -17,6 +17,7 @@ import (
 var editAppJSResp ArgsAppJS
 var editAppCSSResp ArgsAppCSS
 var newFileResp ArgsCreateFile
+var libsResp ArgsLibraries
 
 func AppJSTool() {
 
@@ -35,13 +36,13 @@ func AppJSTool() {
 
 	messages = append(messages, openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,
-		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js and App.css. You are able to create new JavaScript files to assist you in creating the application, ensure these are correctly imported into App.js. You are not able to import any external libraries. Do not any code in the chat content itself; keep your answers succinct.",
+		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js and App.css. You are able to create new JavaScript files to assist you in creating the application, ensure these are correctly imported into App.js. You are able to import external libraries which you should utilise for advanced app functionality.",
 	})
 
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Conversation")
 	fmt.Println("---------------------")
-	myTools := []openai.Tool{AppJSEdit, AppCSSEdit, NewJsonFile}
+	myTools := []openai.Tool{AppJSEdit, AppCSSEdit, NewJsonFile, ImportLibraries}
 
 	for {
 		fmt.Print("-> ")
@@ -109,6 +110,13 @@ func AppJSTool() {
 				json.Unmarshal([]byte(val.Function.Arguments), &newFileResp)
 				CreateJSFile(
 					newFileResp,
+				)
+			case "libraries_func":
+				fmt.Println("Importing libraries ...")
+				// fmt.Println(val.Function.Arguments)
+				json.Unmarshal([]byte(val.Function.Arguments), &libsResp)
+				InstallLibraries(
+					libsResp,
 				)
 			}
 		}
