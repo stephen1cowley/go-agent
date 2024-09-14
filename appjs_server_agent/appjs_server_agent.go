@@ -46,9 +46,10 @@ func AppJSTool() {
 		resp, err := client.CreateChatCompletion(
 			ctx,
 			openai.ChatCompletionRequest{
-				Model:    openai.GPT4o,
-				Messages: messages,
-				Tools:    myTools,
+				Model:       openai.GPT4o,
+				Messages:    messages,
+				Tools:       myTools,
+				Temperature: 0.7,
 				// ToolChoice: "required",
 			},
 		)
@@ -68,12 +69,22 @@ func AppJSTool() {
 		// fmt.Println(string(jsonData))
 
 		content := resp.Choices[0].Message.Content
+		tool_calls := resp.Choices[0].Message.ToolCalls
+
 		fmt.Println(content)
 
-		tool_calls := resp.Choices[0].Message.ToolCalls
 		if len(tool_calls) != 0 {
 			fmt.Println("Now making any tool calls ...")
 		}
+
+		if len(messages) >= 6 {
+			messages = messages[1:]
+		}
+
+		messages = append(messages, openai.ChatCompletionMessage{
+			Role:    openai.ChatMessageRoleAssistant,
+			Content: content,
+		})
 
 		for _, val := range tool_calls {
 			switch val.Function.Name {
@@ -93,9 +104,6 @@ func AppJSTool() {
 				)
 			}
 		}
-		messages = append(messages, openai.ChatCompletionMessage{
-			Role:    openai.ChatMessageRoleAssistant,
-			Content: content,
-		})
+
 	}
 }
