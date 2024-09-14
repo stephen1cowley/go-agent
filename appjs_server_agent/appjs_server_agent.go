@@ -36,7 +36,7 @@ func AppJSTool() {
 
 	messages = append(messages, openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,
-		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js and App.css. You are able to create new JavaScript files to assist you in creating the application, ensure these are correctly imported into App.js. You are able to import external libraries which you should utilise for advanced app functionality, but use this feature sparingly and be aware of version conflicts.",
+		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js and App.css. You are able to create new JavaScript files to assist you in creating the application, ensure these are correctly imported into App.js. You are able to import external libraries, but use this feature sparingly and be aware of version conflicts.",
 	})
 
 	reader := bufio.NewReader(os.Stdin)
