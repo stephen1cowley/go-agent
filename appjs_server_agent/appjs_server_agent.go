@@ -63,26 +63,26 @@ func AppJSTool() {
 			Content: text,
 		})
 
+		// System message at the end describing the current state of the files
 		endSysMsg := openai.ChatCompletionMessage{
 			Role:    openai.ChatMessageRoleSystem,
 			Content: currDirState.CreateSysMsgState(),
 		}
-		fmt.Println(endSysMsg)
+		// Start and end system message with user/machine communication sandwiched inbetween
+		messagesWithSys := append(append([]openai.ChatCompletionMessage{startSysMsg}, messages...), endSysMsg)
+		fmt.Println(messagesWithSys)
 
 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-
-		fmt.Println(append(append([]openai.ChatCompletionMessage{startSysMsg}, messages...), endSysMsg))
 		resp, err := client.CreateChatCompletion(
 			ctx,
 			openai.ChatCompletionRequest{
 				Model:       openai.GPT4o,
-				Messages:    append(append([]openai.ChatCompletionMessage{startSysMsg}, messages...), endSysMsg),
+				Messages:    messagesWithSys,
 				Tools:       myTools,
 				Temperature: 0.8,
 				// ToolChoice: "required",
 			},
 		)
-
 		cancel()
 
 		if err != nil {
@@ -99,7 +99,7 @@ func AppJSTool() {
 			fmt.Println("Now making any tool calls ...")
 		}
 
-		// Replace all occurrences of the pattern with an empty string
+		// Replace all occurrences of stuff between ```...```
 		content = re.ReplaceAllString(content, "")
 
 		for _, val := range tool_calls {
@@ -139,7 +139,7 @@ func AppJSTool() {
 			}
 		}
 
-		if len(messages) >= 6 {
+		if len(messages) >= 10 {
 			messages = messages[2:]
 		}
 
