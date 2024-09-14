@@ -40,15 +40,18 @@ func AppJSTool() {
 	client := openai.NewClient(apiKey)
 	messages := make([]openai.ChatCompletionMessage, 0)
 
-	messages = append(messages, openai.ChatCompletionMessage{
+	startSysMsg := openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,
 		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js and App.css. You are able to create new JavaScript files to assist you in creating the application, ensure these are correctly imported into App.js.",
-	})
+	}
 
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Conversation")
 	fmt.Println("---------------------")
 	myTools := []openai.Tool{AppJSEdit, AppCSSEdit, NewJsonFile}
+
+	// Define a regular expression pattern to match everything between backticks
+	re := regexp.MustCompile("```[^```]+```")
 
 	for {
 		fmt.Print("-> ")
@@ -60,13 +63,20 @@ func AppJSTool() {
 			Content: text,
 		})
 
+		endSysMsg := openai.ChatCompletionMessage{
+			Role:    openai.ChatMessageRoleSystem,
+			Content: currDirState.CreateSysMsgState(),
+		}
+		fmt.Println(endSysMsg)
+
 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 
+		fmt.Println(append(append([]openai.ChatCompletionMessage{startSysMsg}, messages...), endSysMsg))
 		resp, err := client.CreateChatCompletion(
 			ctx,
 			openai.ChatCompletionRequest{
 				Model:       openai.GPT4o,
-				Messages:    messages,
+				Messages:    append(append([]openai.ChatCompletionMessage{startSysMsg}, messages...), endSysMsg),
 				Tools:       myTools,
 				Temperature: 0.8,
 				// ToolChoice: "required",
@@ -80,26 +90,14 @@ func AppJSTool() {
 			continue
 		}
 
-		// jsonData, err := json.MarshalIndent(resp, "", "    ")
-		// if err != nil {
-		// 	fmt.Println(err)
-		// 	return
-		// }
-		// fmt.Println(string(jsonData))
-
 		content := resp.Choices[0].Message.Content
-		fmt.Println(content)
 
 		fmt.Println("Current Directory State is as FOLLOWS:")
-		fmt.Println(currDirState.CreateSysMsgState())
 
 		tool_calls := resp.Choices[0].Message.ToolCalls
 		if len(tool_calls) != 0 {
 			fmt.Println("Now making any tool calls ...")
 		}
-
-		// Define a regular expression pattern to match everything between backticks
-		re := regexp.MustCompile("```[^```]+```")
 
 		// Replace all occurrences of the pattern with an empty string
 		content = re.ReplaceAllString(content, "")
@@ -108,7 +106,6 @@ func AppJSTool() {
 			switch val.Function.Name {
 			case "app_js_edit_func":
 				fmt.Println("Updating App.js ...")
-				// fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &editAppJSResp)
 				EditAppJS(
 					editAppJSResp.AppJSCode,
@@ -116,7 +113,6 @@ func AppJSTool() {
 				currDirState.AppJSCode = editAppJSResp.AppJSCode
 			case "app_css_edit_func":
 				fmt.Println("Updating App.css ...")
-				// fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &editAppCSSResp)
 				EditAppCSS(
 					editAppCSSResp.AppCSSCode,
@@ -124,7 +120,6 @@ func AppJSTool() {
 				currDirState.AppCSSCode = editAppCSSResp.AppCSSCode
 			case "new_js_file_func":
 				fmt.Println("Creating new JS file ...")
-				// fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &newFileResp)
 				CreateJSFile(
 					newFileResp,
@@ -137,7 +132,6 @@ func AppJSTool() {
 					})
 			case "libraries_func":
 				fmt.Println("Importing libraries ...")
-				// fmt.Println(val.Function.Arguments)
 				json.Unmarshal([]byte(val.Function.Arguments), &libsResp)
 				InstallLibraries(
 					libsResp,
