@@ -72,7 +72,7 @@ func AppJSTool() {
 		tool_calls := resp.Choices[0].Message.ToolCalls
 
 		fmt.Println(content)
-		fmt.Println(messages)
+
 		// test
 
 		if len(tool_calls) != 0 {
@@ -87,6 +87,8 @@ func AppJSTool() {
 			Role:    openai.ChatMessageRoleAssistant,
 			Content: content,
 		})
+
+		fmt.Println(messages)
 
 		for _, val := range tool_calls {
 			switch val.Function.Name {
