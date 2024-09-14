@@ -40,9 +40,10 @@ func AppJSTool() {
 	client := openai.NewClient(apiKey)
 	messages := make([]openai.ChatCompletionMessage, 0)
 
+	// Starting system message always prepended to list of messages
 	startSysMsg := openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,
-		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js and App.css. You are able to create new JavaScript files to assist you in creating the application, ensure these are correctly imported into App.js.",
+		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate, with access to Bootstrap 5 styles. You are able to change App.js and App.css. You are able to create new JavaScript files to assist you in creating the application, ensure these are correctly imported into App.js.",
 	}
 
 	reader := bufio.NewReader(os.Stdin)
@@ -91,8 +92,6 @@ func AppJSTool() {
 		}
 
 		content := resp.Choices[0].Message.Content
-
-		fmt.Println("Current Directory State is as FOLLOWS:")
 
 		tool_calls := resp.Choices[0].Message.ToolCalls
 		if len(tool_calls) != 0 {
