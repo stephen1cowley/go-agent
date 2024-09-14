@@ -19,7 +19,7 @@ func (cd DirectoryState) CreateSysMsgState() (sysMsg string) {
 	sysMsg += cd.AppCSSCode
 	sysMsg += "\n```"
 	for _, file := range cd.OtherFiles {
-		sysMsg += "\n\n" + file.FileName + ":\n\n```" + file.FileCode + "\n```"
+		sysMsg += "\n\n`" + file.FileName + ".js`:\n\n```\n" + file.FileCode + "\n```"
 	}
 	return
 }

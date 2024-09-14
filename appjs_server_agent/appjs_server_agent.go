@@ -123,6 +123,13 @@ func AppJSTool() {
 				CreateJSFile(
 					newFileResp,
 				)
+				for i, file := range currDirState.OtherFiles {
+					if newFileResp.FileName == file.FileName {
+						currDirState.OtherFiles[i].FileCode = newFileResp.FileContent
+						break
+					}
+				}
+				// File doesn't yet exist in the list; append this new file.
 				currDirState.OtherFiles = append(
 					currDirState.OtherFiles,
 					FileState{
