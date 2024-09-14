@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"regexp"
 	"strings"
 	"time"
 
@@ -36,7 +37,7 @@ func AppJSTool() {
 
 	messages = append(messages, openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleSystem,
-		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js and App.css. You are able to create new JavaScript files to assist you in creating the application, ensure these are correctly imported into App.js. NEVER respond with code written in the content of yoru reply, code should be written in the tool calls ONLY!",
+		Content: "You are a helpful software engineer. Currently we are working on a fresh React App boilerplate. You are able to change App.js and App.css. You are able to create new JavaScript files to assist you in creating the application, ensure these are correctly imported into App.js.",
 	})
 
 	reader := bufio.NewReader(os.Stdin)
@@ -89,6 +90,12 @@ func AppJSTool() {
 			fmt.Println("Now making any tool calls ...")
 		}
 
+		// Define a regular expression pattern to match everything between backticks
+		re := regexp.MustCompile("```[^```]+```")
+
+		// Replace all occurrences of the pattern with an empty string
+		content = re.ReplaceAllString(content, "")
+
 		for _, val := range tool_calls {
 			switch val.Function.Name {
 			case "app_js_edit_func":
@@ -130,5 +137,7 @@ func AppJSTool() {
 			Role:    openai.ChatMessageRoleAssistant,
 			Content: content,
 		})
+
+		fmt.Println(messages)
 	}
 }
