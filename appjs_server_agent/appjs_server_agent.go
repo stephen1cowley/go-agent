@@ -31,6 +31,11 @@ func AppJSTool() {
 	}
 	fmt.Println(string(output))
 
+	currDirState := DirectoryState{
+		AppJSCode:  "",
+		AppCSSCode: "",
+	}
+
 	apiKey := os.Getenv("OPEN_AI_API_KEY")
 	client := openai.NewClient(apiKey)
 	messages := make([]openai.ChatCompletionMessage, 0)
@@ -85,6 +90,9 @@ func AppJSTool() {
 		content := resp.Choices[0].Message.Content
 		fmt.Println(content)
 
+		fmt.Println("Current Directory State is as FOLLOWS:")
+		fmt.Println(currDirState.CreateSysMsgState())
+
 		tool_calls := resp.Choices[0].Message.ToolCalls
 		if len(tool_calls) != 0 {
 			fmt.Println("Now making any tool calls ...")
@@ -105,6 +113,7 @@ func AppJSTool() {
 				EditAppJS(
 					editAppJSResp.AppJSCode,
 				)
+				currDirState.AppJSCode = editAppJSResp.AppJSCode
 			case "app_css_edit_func":
 				fmt.Println("Updating App.css ...")
 				// fmt.Println(val.Function.Arguments)
@@ -112,6 +121,7 @@ func AppJSTool() {
 				EditAppCSS(
 					editAppCSSResp.AppCSSCode,
 				)
+				currDirState.AppCSSCode = editAppCSSResp.AppCSSCode
 			case "new_js_file_func":
 				fmt.Println("Creating new JS file ...")
 				// fmt.Println(val.Function.Arguments)
@@ -119,6 +129,12 @@ func AppJSTool() {
 				CreateJSFile(
 					newFileResp,
 				)
+				currDirState.OtherFiles = append(
+					currDirState.OtherFiles,
+					FileState{
+						FileName: newFileResp.FileName,
+						FileCode: newFileResp.FileContent,
+					})
 			case "libraries_func":
 				fmt.Println("Importing libraries ...")
 				// fmt.Println(val.Function.Arguments)
