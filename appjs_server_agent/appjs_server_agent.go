@@ -124,6 +124,7 @@ func AppJSTool() {
 					newFileResp,
 				)
 				for i, file := range currDirState.OtherFiles {
+					fmt.Println(file.FileName, newFileResp.FileName)
 					if newFileResp.FileName == file.FileName {
 						currDirState.OtherFiles[i].FileCode = newFileResp.FileContent
 						break
