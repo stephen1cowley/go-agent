@@ -49,7 +49,7 @@ func AppJSTool() {
 				Model:       openai.GPT4o,
 				Messages:    messages,
 				Tools:       myTools,
-				Temperature: 0.7,
+				Temperature: 0.0,
 				// ToolChoice: "required",
 			},
 		)
