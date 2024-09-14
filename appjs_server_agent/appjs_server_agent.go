@@ -102,6 +102,7 @@ func AppJSTool() {
 		content = re.ReplaceAllString(content, "")
 
 		for _, val := range tool_calls {
+		outerSwitch:
 			switch val.Function.Name {
 			case "app_js_edit_func":
 				fmt.Println("Updating App.js ...")
@@ -124,10 +125,9 @@ func AppJSTool() {
 					newFileResp,
 				)
 				for i, file := range currDirState.OtherFiles {
-					fmt.Println(file.FileName, newFileResp.FileName)
 					if newFileResp.FileName == file.FileName {
 						currDirState.OtherFiles[i].FileCode = newFileResp.FileContent
-						break
+						break outerSwitch
 					}
 				}
 				// File doesn't yet exist in the list; append this new file.
