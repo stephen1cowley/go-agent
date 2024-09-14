@@ -72,6 +72,7 @@ func AppJSTool() {
 		tool_calls := resp.Choices[0].Message.ToolCalls
 
 		fmt.Println(content)
+		fmt.Println(messages)
 
 		if len(tool_calls) != 0 {
 			fmt.Println("Now making any tool calls ...")
