@@ -1,6 +1,12 @@
-### To Run
+# Go Agent
+## Description
+Chatbot with CLI interface to edit JavaScript and CSS code locally on your machine. 
 
-Works on linux only.
+Written in Golang, uses OpenAI APIs. 
+
+## Installation
+
+Works on linux only. This code edits code locally on your machine, so take care as to isolate the machine on which this runs!
 
 Clone with http
 ```
